@@ -5,7 +5,7 @@ cc.Class({
 
     },
 
-    onLoad() {
+    init() {
         this.tiledMap = this.getComponent(cc.TiledMap)
         this.roadsLayer = this.tiledMap.getLayer('roads')
         this.towersLayer = this.tiledMap.getLayer('towers')
