@@ -1,0 +1,8 @@
+{
+  "engine": "cocos-creator-js",
+  "packages": "packages",
+  "name": "TowerDefenseGame",
+  "id": "49e19da0-84ff-45a0-a7d9-8501c3f0b832",
+  "version": "2.4.5",
+  "isNew": false
+}
