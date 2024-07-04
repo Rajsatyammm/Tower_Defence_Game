@@ -19,7 +19,6 @@ cc.Class({
         this.targets = this.levelMap.tiledMap.getObjectGroup('path').getObjects()
         this.targetIndex = 1
         this.node.setPosition(this.getCurrentTargetPosition())
-
         this.targetIndex++;
         this.move()
     },

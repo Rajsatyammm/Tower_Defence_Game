@@ -1,4 +1,6 @@
 const LevelMap = require('LevelMap')
+const PanelCreate = require('PanelCreate')
+const Towers = require('Towers')
 
 cc.Class({
     extends: cc.Component,
@@ -7,6 +9,14 @@ cc.Class({
         map: {
             default: null,
             type: LevelMap,
+        },
+        panelCreate: {
+            default: null,
+            type: PanelCreate
+        },
+        towers: {
+            default: null,
+            type: Towers
         }
     },
 
@@ -19,17 +29,29 @@ cc.Class({
 
     },
 
-    // update (dt) {},
+    update(dt) {
+    },
+
 
     init() {
         this.map.init()
+        this.towers.init(this.map)
+        this.panelCreate.init(this.map)
     },
 
     setEvents() {
-        this.map.node.on(cc.Node.EventType.TOUCH_START, this.handleMapTouch, this)
+        this.map.node.on(cc.Node.EventType.TOUCH_END, this.handleMapTouch, this)
+        this.panelCreate.node.on("tower-selected", this.onTowerCreate, this)
+    },
+
+    onTowerCreate(e) {
+        this.towers.createTower(e.towerKey, e.towerCoordinate)
+        this.panelCreate.hide()
+
     },
 
     handleMapTouch(e) {
+        this.panelCreate.hide()
         const location = e.getLocation()
         const position = {
             x: location.x * 2,
@@ -37,9 +59,8 @@ cc.Class({
         }
         const coordinate = this.map.getTilesCoordinateByPosition(position)
         const tileId = this.map.towersLayer.getTileGIDAt(coordinate)
-
         if (tileId) {
-            console.log('special tile')
+            this.panelCreate.show(coordinate)
         }
     }
 });
