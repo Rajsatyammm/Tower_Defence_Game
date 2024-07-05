@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "tower1",
+    "_name": "enemy",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -42,8 +42,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 42,
-      "height": 55
+      "width": 24,
+      "height": 28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -54,15 +54,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -512,
-        -288,
+        0,
+        0,
         0,
         0,
         0,
         0,
         1,
-        0.5,
-        0.5,
+        2,
+        2,
         1
       ]
     },
@@ -95,7 +95,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "64fbdd63-cb27-4241-afbf-f6191aa74c1c"
+      "__uuid__": "db5c3cd2-0678-4c19-a8e9-a47e228ecfda"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -112,18 +112,16 @@
     "_id": ""
   },
   {
-    "__type__": "4d6e4L4nFxPUa69BSlnWL/z",
+    "__type__": "1d6875dg6JGTbi0B0PKgJXN",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "reloadTime": 0.5,
-    "rotationSpeed": 400,
-    "fire": {
-      "__uuid__": "86d3bc49-d33b-4e8d-b5f3-a841c6a3769e"
-    },
+    "velocity": 250,
+    "rotationSpeed": 250,
+    "health": 3,
     "_id": ""
   },
   {
@@ -140,7 +138,7 @@
       "x": 0,
       "y": 0
     },
-    "_radius": 300,
+    "_radius": 22,
     "_id": ""
   },
   {
@@ -149,7 +147,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "decfb1f8-6bf6-4328-ab60-881e369f37a8"
+      "__uuid__": "6361ce13-fef5-4b19-af37-1606646560b5"
     },
     "fileId": "",
     "sync": false

@@ -1,6 +1,7 @@
 const LevelMap = require('LevelMap')
 const PanelCreate = require('PanelCreate')
 const Towers = require('Towers')
+const Enemies = require('Enemies')
 
 cc.Class({
     extends: cc.Component,
@@ -17,7 +18,11 @@ cc.Class({
         towers: {
             default: null,
             type: Towers
-        }
+        },
+        enemies: {
+            default: null,
+            type: Enemies
+        },
     },
 
     onLoad() {
@@ -34,9 +39,11 @@ cc.Class({
 
 
     init() {
+        cc.director.getCollisionManager().enabled = true
         this.map.init()
         this.towers.init(this.map)
         this.panelCreate.init(this.map)
+        this.enemies.init(this)
     },
 
     setEvents() {
@@ -57,10 +64,15 @@ cc.Class({
             x: location.x * 2,
             y: location.y * 2
         }
-        const coordinate = this.map.getTilesCoordinateByPosition(position)
-        const tileId = this.map.towersLayer.getTileGIDAt(coordinate)
+        const coordinates = this.map.getTilesCoordinateByPosition(position)
+        const tileId = this.map.towersLayer.getTileGIDAt(coordinates)
         if (tileId) {
-            this.panelCreate.show(coordinate)
+            const isTowerAlreadyExist = this.towers.getByCoordinates(coordinates);
+            if (!isTowerAlreadyExist) {
+                this.panelCreate.show(coordinates)
+            } else {
+                console.log('already exists')
+            }
         }
     }
 });

@@ -1,3 +1,5 @@
+const levelMap = require('LevelMap')
+
 cc.Class({
     extends: cc.Component,
 
@@ -6,6 +8,10 @@ cc.Class({
             default: [],
             type: [cc.Prefab]
         },
+        level: {
+            default: null,
+            type: levelMap
+        }
     },
 
     init(map) {
@@ -23,14 +29,20 @@ cc.Class({
         // getting the tower component
         const towerComponent = towerNode.getComponent('Tower')
         towerComponent.init(coordinates)
-        // add the newly created tower node to the towersList
+        // add the newly created tower node to the towers  List
         this.towersList.push(towerComponent)
         const position = this.map.towersLayer.getPositionAt(coordinates)
-        const positionToSet = { x: position.x + this.map.tileWidth / 2, y: position.y + this.map.tileHeight / 2 }
-        towerNode.setPosition(positionToSet)
-        console.log("position -> ", position)
-        console.log("positionToSet -> ", positionToSet)
-        console.log(this.towersList)
+        towerNode.setPosition({ x: position.x + this.map.tileWidth / 2, y: position.y + this.map.tileHeight / 2 })
+        // console.log("towerComponent ==> ", towerComponent)
+        // console.log('towersList ==> ', this.towersList)
+    },
+
+    getByCoordinates(position) {
+        return this.towersList
+            .find(towerComponent => {
+                const coordinates = this.level.getTilesCoordinateByPosition({ x: towerComponent.node.x, y: towerComponent.node.y })
+                return coordinates.x === position.x && coordinates.y === position.y
+            })
     },
 
     destroyTower(key, coordinates) {

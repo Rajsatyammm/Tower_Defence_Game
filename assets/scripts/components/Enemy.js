@@ -4,12 +4,14 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        velocity: 250,
+        velocity: 150,
         rotationSpeed: 250,
-        levelMap: {
-            default: null,
-            type: LevelMap,
-        }
+        health: 2,
+
+    },
+
+    init(level) {
+        this.levelMap = level.map
     },
 
     onLoad() {
@@ -25,6 +27,16 @@ cc.Class({
 
     update(dt) {
 
+    },
+
+    takeDamage(damage) {
+        this.health -= damage
+        if (this.health <= 0) {
+            this.node.stopAllActions()
+            this.node.emit('killed')
+            this.node.destroy()
+        }
+        console.log('updated health :: ', this.health)
     },
 
     move() {
@@ -49,9 +61,12 @@ cc.Class({
         // calculate the angle for rotaion of enemy
         const angle = this.getAngle(targetPosition)
         //             time = distance / speed
-        const timeToRotate = Math.abs(angle - this.node.angel) / this.rotationSpeed
+        const distance = Math.abs(angle - this.node.angel)
+
+        const timeToRotate = distance / this.rotationSpeed
         // rotate the enemy to the specific angle
         this.node.runAction(cc.rotateTo(timeToRotate, angle))
+
     },
 
     moveTo(targetPosition) {
@@ -76,11 +91,9 @@ cc.Class({
 
     getCurrentTargetPosition() {
         const currentTarget = this.getCurrentTarget()
-
         if (!currentTarget) {
             return false
         }
-
         const tileCoordinates = this.levelMap.getTilesCoordinateByPosition(cc.v2(currentTarget.x, currentTarget.y))
         const position = this.levelMap.roadsLayer.getPositionAt(tileCoordinates.x, tileCoordinates.y)
         return cc.v2(position.x + this.levelMap.tileWidth / 2, position.y + this.levelMap.tileHeight / 2)

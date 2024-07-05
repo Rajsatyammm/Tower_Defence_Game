@@ -32,5 +32,5 @@ cc.Class({
             x: Math.floor(position.x / this.tileWidth),
             y: this.mapHeight - Math.floor(position.y / this.tileHeight) - 1,
         }
-    }
+    },
 });
