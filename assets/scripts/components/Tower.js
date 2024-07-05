@@ -10,8 +10,6 @@ cc.Class({
         }
     },
 
-    // onLoad () {},
-
     init(coordinates) {
         this.coordinates = coordinates
         this.targets = []
@@ -19,10 +17,6 @@ cc.Class({
 
     callTryFire() {
         this.tryFire()
-    },
-
-    onDestroy() {
-        this.unschedule(this.callTryFire)
     },
 
     tryFire() {
@@ -33,9 +27,11 @@ cc.Class({
                     x: targetNode.x,
                     y: targetNode.y
                 }
+                console.log("targetPosition ", targetPosition);
                 this.rotateTo(targetPosition).then(() => {
                     this.createFire(targetPosition)
                 })
+
             }
         }
     },
@@ -58,15 +54,17 @@ cc.Class({
     },
 
     rotateTo(targetPosition) {
-        const angle = this.getAngle(targetPosition)
-        const currentAngle = this.node.angle % 360;
+        const angle = this.getAngle(targetPosition);
+        console.log("angle ", angle, ", tower Angle ", this.node.angle);
+        const currentAngle = (this.node.angle % 360);
         const distance = Math.abs(angle - currentAngle)
+        // console.log("distance ", distance);
 
         return new Promise(resolve => {
             if (distance) {
                 const timeToRotate = distance / this.rotationSpeed
                 this.node.runAction(cc.sequence(
-                    cc.rotateTo(timeToRotate, angle),
+                    cc.rotateTo(timeToRotate, 360 - angle),
                     cc.callFunc(resolve)
                 ))
             } else {
@@ -89,7 +87,7 @@ cc.Class({
             this.isColliding = false
         }
         if (this.targets.length === 0) {
-            this.onDestroy()
+            this.unschedule(this.callTryFire)
         }
     },
 
